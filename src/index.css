@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.sliderText {
+    @apply text-3xl italic w-full text-center shadow-lg absolute bottom-5 uppercase text-base-100
+}
+
+.sliderImage {
+    @apply w-full object-cover rounded-xl
+}

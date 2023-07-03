@@ -9,3 +9,15 @@
 .sliderImage {
     @apply w-full object-cover rounded-xl
 }
+
+.button-menu {
+    @apply btn bg-white border-0 border-b-2 border-secondary text-secondary
+}
+
+.button-menu:hover {
+    @apply bg-secondary text-white
+}
+
+.button-cart {
+    @apply btn bg-gray-200 px-10 border-0 border-b-2 border-secondary text-secondary
+}

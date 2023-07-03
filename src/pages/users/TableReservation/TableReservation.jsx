@@ -3,7 +3,7 @@
 const TableReservation = () => {
     return (
         <div>
-
+            reservation
         </div>
     );
 };

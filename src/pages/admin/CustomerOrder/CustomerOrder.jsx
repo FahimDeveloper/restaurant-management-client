@@ -3,7 +3,7 @@
 const CustomerOrder = () => {
     return (
         <div>
-
+            customer order
         </div>
     );
 };

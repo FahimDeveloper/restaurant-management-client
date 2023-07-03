@@ -3,7 +3,7 @@
 const DigitalMenu = () => {
     return (
         <div>
-
+            digitalMenu
         </div>
     );
 };

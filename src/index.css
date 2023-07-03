@@ -19,5 +19,9 @@
 }
 
 .button-cart {
-    @apply btn bg-gray-200 px-10 border-0 border-b-2 border-secondary text-secondary
+    @apply btn bg-gray-100 px-10 border-0 border-b-2 border-secondary text-secondary
+}
+
+.button-cart:hover {
+    @apply bg-secondary text-white
 }

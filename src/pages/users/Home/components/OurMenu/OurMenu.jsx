@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionTitle from "../../../../../components/Shared/SectionTitle/SectionTitle";
 import useMenuCollection from "../../../../../hooks/useMenuCollection";
 import SingleMenu from "./SingleMenu";
@@ -17,7 +18,7 @@ const OurMenu = () => {
                 }
             </div>
             <div className="text-center">
-                <button className='button-menu'>view full menu</button>
+                <Link to="/digital_menu"><button className='button-menu'>view full menu</button></Link>
             </div>
         </div>
     );

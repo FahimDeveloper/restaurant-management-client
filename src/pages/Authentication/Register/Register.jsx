@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { updateProfile } from "firebase/auth";
+import axios from "axios";
 
 
 const Register = () => {
@@ -16,15 +17,39 @@ const Register = () => {
             updateProfile(user, {
                 displayName: data.name
             }).then(() => {
-                successRegister();
+                const userData = {
+                    name: user.displayName,
+                    email: user.email,
+                    userInfo: user,
+                    role: "user"
+                }
+                console.log(userData)
+                axios.post('http://localhost:5000/newUser', userData).then(data => {
+                    if (data.data.insertedId) {
+                        successRegister();
+                    }
+                }).catch(error => authError(error.message))
             }).catch(error => {
                 authError(error.message)
             })
         }).catch(error => authError(error.message))
     };
     const handleGoogle = () => {
-        continueWithGoogle().then(() => {
-            successLogin();
+        continueWithGoogle().then(res => {
+            const user = res.user;
+            const userData = {
+                name: user.displayName,
+                email: user.email,
+                userInfo: user,
+                role: "user"
+            }
+            axios.post('http://localhost:5000/newUser', userData).then(data => {
+                if (data.data.insertedId) {
+                    successRegister();
+                } else {
+                    successLogin();
+                }
+            }).catch(error => authError(error.message))
         }).catch(error => authError(error.message))
     }
     return (

@@ -4,18 +4,32 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
-    const { signIn, continueWithGoogle, successLogin, authError } = useAuth();
+    const { signIn, continueWithGoogle, successLogin, successRegister, authError } = useAuth();
     const onSubmit = data => {
         signIn(data.email, data.password).then(() => {
             successLogin();
         }).catch(error => authError(error.message))
     };
     const handleGoogle = () => {
-        continueWithGoogle().then(() => {
-            successLogin();
+        continueWithGoogle().then(res => {
+            const user = res.user;
+            const userData = {
+                name: user.displayName,
+                email: user.email,
+                userInfo: user,
+                role: "user"
+            }
+            axios.post('http://localhost:5000/newUser', userData).then(data => {
+                if (data.data.insertedId) {
+                    successRegister();
+                } else {
+                    successLogin();
+                }
+            })
         }).catch(error => authError(error.message))
     }
     return (

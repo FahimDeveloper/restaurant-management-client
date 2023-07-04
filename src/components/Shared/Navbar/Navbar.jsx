@@ -17,8 +17,12 @@ const Navbar = () => {
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="digital_menu">Menu</NavLink>
                         <NavLink to="table_reservation">Table Reservation</NavLink>
-                        <NavLink to="order">Order</NavLink>
-                        <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
+                        {
+                            user ? <>
+                                <NavLink to="order">Order</NavLink>
+                                <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
+                            </> : ''
+                        }
                     </div>
                     <div className="flex gap-5">
                         <HiOutlineShoppingCart className="text-2xl" />

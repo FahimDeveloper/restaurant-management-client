@@ -14,6 +14,8 @@ import AddItem from "../pages/admin/AddItem/AddItem";
 import MainLayout from "../pages/users/layout/MainLayout";
 import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
+import UserPrivetRoute from "./userPrivetRoute";
+import AuthPrivetRoute from "./AuthPrivetRoute";
 
 export const router = createBrowserRouter([
     {
@@ -21,9 +23,9 @@ export const router = createBrowserRouter([
             { path: '/', element: <Home /> },
             { path: 'table_reservation', element: <TableReservation /> },
             { path: 'digital_menu', element: <DigitalMenu /> },
-            { path: 'order', element: <Order /> },
-            { path: 'login', element: <Login /> },
-            { path: 'register', element: <Register /> },
+            { path: 'order', element: <UserPrivetRoute><Order /></UserPrivetRoute> },
+            { path: 'login', element: <AuthPrivetRoute><Login /></AuthPrivetRoute> },
+            { path: 'register', element: <AuthPrivetRoute><Register /></AuthPrivetRoute> },
         ]
     },
     {

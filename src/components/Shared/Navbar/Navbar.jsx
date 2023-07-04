@@ -3,9 +3,11 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 import { BiUserCircle } from "react-icons/bi";
 import Container from "../Container";
 import useAuth from "../../../hooks/useAuth";
+import useUser from "../../../hooks/useUser";
 
 const Navbar = () => {
-    const { user, logOut } = useAuth()
+    const { user, logOut } = useAuth();
+    const { userRole } = useUser();
     return (
         <div className="fixed top-0 left-0 w-full z-10 bg-black bg-opacity-60 text-base-100">
             <Container>
@@ -20,7 +22,11 @@ const Navbar = () => {
                         {
                             user ? <>
                                 <NavLink to="order">Order</NavLink>
-                                <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
+                                {
+                                    !!userRole && userRole === "admin" ?
+                                        <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
+                                        : ""
+                                }
                             </> : ''
                         }
                     </div>

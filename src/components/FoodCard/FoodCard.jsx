@@ -1,5 +1,4 @@
 
-
 const FoodCard = (props) => {
     const { name, image, price, recipe } = props;
     return (

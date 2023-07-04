@@ -1,9 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { BiUserCircle } from "react-icons/bi";
 import Container from "../Container";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
+    const { user, logOut } = useAuth()
     return (
         <div className="fixed top-0 left-0 w-full z-10 bg-black bg-opacity-60 text-base-100">
             <Container>
@@ -22,17 +24,17 @@ const Navbar = () => {
                         <HiOutlineShoppingCart className="text-2xl" />
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0}>
-                                <BiUserCircle className="text-2xl" />
+                                <BiUserCircle className="text-2xl cursor-pointer" />
                             </label>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                <li>
-                                    <a className="justify-between">
-                                        Profile
-                                        <span className="badge">New</span>
-                                    </a>
-                                </li>
-                                <li><a>Settings</a></li>
-                                <li><a>Logout</a></li>
+                            <ul tabIndex={0} className="menu text-neutral menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                {
+                                    user ?
+                                        <li onClick={logOut}>Logout</li>
+                                        : <>
+                                            <li><Link to="/login">Sign In</Link></li>
+                                            <li><Link to="/register">Sign Up</Link></li>
+                                        </>
+                                }
                             </ul>
                         </div>
                     </div>

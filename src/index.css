@@ -25,3 +25,11 @@
 .button-cart:hover {
     @apply bg-secondary text-white
 }
+
+.reservationBtn {
+    @apply border-2 border-secondary text-secondary rounded-lg px-3 py-1 text-sm
+}
+
+.reservationBtn:hover {
+    @apply bg-secondary text-white
+}

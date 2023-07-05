@@ -3,27 +3,59 @@ import Container from "../../../components/Shared/Container";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-// import foodCover from "../../../assets/shop/banner2.jpg";
-// import SectionCover from "../../../components/SectionCover/SectionCover";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 
 const TableReservation = () => {
+    const { user } = useAuth();
+    const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
     const [table, setTable] = useState([])
+    const [reservationInfo, setReservationInfo] = useState({})
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         const findTable = {
             date: data.date,
             time: data.time
         }
+        setReservationInfo(data);
         axios.post("http://localhost:5000/tableInfo", findTable).then(res => {
             setTable(res.data)
         })
     };
+    const handleBookingTable = (id, tableName) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `You want to reserve ${tableName} for ${reservationInfo.time}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reserve it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.post(`/reservedTable/${user?.email}/${id}`, reservationInfo).then(res => {
+                    if (res.data.modifiedCount > 0) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Table reserved successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        navigate('/order')
+                    }
+                }).catch(error => console.log(error.message))
+            }
+        })
+    }
     return (
         <>
-            {/* <SectionCover img={foodCover} heading={"Table Reservation"} subheading={'would you like to try a dish?'} /> */}
             <Container>
-                <div className="py-10">
+                <div className="pb-10 pt-28">
                     <SectionTitle subheading="Reservatio" heading="book a table" />
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         <div className="flex gap-5 items-center">
@@ -31,13 +63,13 @@ const TableReservation = () => {
                                 <label className="label">
                                     <span className="label-text text-base">Date</span>
                                 </label>
-                                <input type="date" {...register('date')} className="input input-bordered w-full" />
+                                <input type="date" {...register('date')} required className="input input-bordered w-full" />
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">
                                     <span className="label-text text-base">Time</span>
                                 </label>
-                                <select {...register('time')} className="select select-bordered w-full">
+                                <select {...register('time')} required className="select select-bordered w-full">
                                     <option disabled selected value="">Select your time slot</option>
                                     <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
                                     <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
@@ -71,25 +103,40 @@ const TableReservation = () => {
                                 <label className="label">
                                     <span className="label-text text-base">Name</span>
                                 </label>
-                                <input type="text" {...register('name')} placeholder="Your name" className="input input-bordered w-full" />
+                                <input type="text" {...register('name')} required placeholder="Your name" defaultValue={user?.displayName} readOnly className="input input-bordered w-full" />
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">
                                     <span className="label-text text-base">Phone</span>
                                 </label>
-                                <input type="tel" {...register('phone')} placeholder="Phone number" className="input input-bordered w-full" />
+                                <input type="tel" {...register('phone')} required placeholder="Phone number" className="input input-bordered w-full" />
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">
                                     <span className="label-text text-base">Email</span>
                                 </label>
-                                <input type="email" {...register('email')} placeholder="Email" className="input input-bordered w-full" />
+                                <input type="email" {...register('email')} required placeholder="Email" defaultValue={user?.email} readOnly className="input input-bordered w-full" />
                             </div>
                         </div>
                         <div className="text-center">
                             <button className="btn btn-secondary rounded-full px-16 mt-2">Search Table</button>
                         </div>
                     </form>
+                    <div className="grid grid-cols-5 gap-5 pt-10">
+                        {table.map(table => {
+                            return (
+                                <div key={table._id} className="card bg-base-100 shadow-xl">
+                                    <div className="card-body">
+                                        <h2 className="card-title">{table.table_name}</h2>
+                                        <p>Time slot {reservationInfo.time}</p>
+                                        <div className="card-actions justify-end">
+                                            <button onClick={() => handleBookingTable(table._id, table.table_name)} className="reservationBtn">Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </Container>
         </>

@@ -9,7 +9,7 @@ const FoodCard = (props) => {
                 <h2 className="card-title">{name}</h2>
                 <p>{recipe}</p>
                 <div className="card-actions justify-end">
-                    <button className="button-cart">add to cart</button>
+                    <button onClick={() => props.handleCartItem(props)} className="button-cart">add to cart</button>
                 </div>
             </div>
         </div>

@@ -4,10 +4,13 @@ import { BiUserCircle } from "react-icons/bi";
 import Container from "../Container";
 import useAuth from "../../../hooks/useAuth";
 import useUser from "../../../hooks/useUser";
+import useCartData from "../../../hooks/useCartData";
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const { userRole } = useUser();
+    const { cartData } = useCartData();
+    console.log(cartData)
     return (
         <div className="fixed top-0 left-0 w-full z-10 bg-black bg-opacity-60 text-base-100">
             <Container>
@@ -31,7 +34,14 @@ const Navbar = () => {
                         }
                     </div>
                     <div className="flex gap-5">
-                        <HiOutlineShoppingCart className="text-2xl" />
+                        <div className="indicator">
+                            <HiOutlineShoppingCart className="text-2xl" />
+                            {
+                                cartData.length > 0 ?
+                                    <span className="badge badge-sm indicator-item">{cartData.length}</span>
+                                    : ''
+                            }
+                        </div>
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0}>
                                 <BiUserCircle className="text-2xl cursor-pointer" />

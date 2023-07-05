@@ -39,11 +39,14 @@ const Cart = () => {
     }
     const handlePlaceOrder = () => {
         const menuIdCollection = []
-        cartData.map(item => menuIdCollection.push(item.menuItemId));
+        const menuItemsCollection = []
+        cartData.map(item => { menuIdCollection.push(item.menuItemId), menuItemsCollection.push(item.name) });
         const orderData = {
             userName: user?.displayName,
             userEmail: user?.email,
-            orderCollection: menuIdCollection
+            orderedItems: menuIdCollection,
+            menuItems: menuItemsCollection,
+            status: 'pending',
         }
         axiosSecure.post(`/placedOrder/${user?.email}`, orderData).then(res => {
             if (res.data.insertedId) {

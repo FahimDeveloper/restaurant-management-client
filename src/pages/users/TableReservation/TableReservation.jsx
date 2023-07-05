@@ -25,10 +25,12 @@ const TableReservation = () => {
             setTable(res.data)
         })
     };
-    const handleBookingTable = (id, tableName) => {
+    const handleBookingTable = (id, tableName, tableImage) => {
+        reservationInfo.table_image = tableImage;
+        reservationInfo.table_name = tableName;
         Swal.fire({
             title: 'Are you sure?',
-            text: `You want to reserve ${tableName} for ${reservationInfo.time}`,
+            text: `You want to reserve ${tableName} for Date ${reservationInfo.date} on ${reservationInfo.time}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -45,7 +47,7 @@ const TableReservation = () => {
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        navigate('/order')
+                        navigate('/order_reservation')
                     }
                 }).catch(error => console.log(error.message))
             }
@@ -121,15 +123,16 @@ const TableReservation = () => {
                             <button className="btn btn-secondary rounded-full px-16 mt-2">Search Table</button>
                         </div>
                     </form>
-                    <div className="grid grid-cols-5 gap-5 pt-10">
+                    <div className="grid grid-cols-3 gap-5 pt-10">
                         {table.map(table => {
                             return (
-                                <div key={table._id} className="card bg-base-100 shadow-xl">
+                                <div key={table._id} className="card lg:card-side card-compact bg-base-100 border p-2 shadow-xl">
+                                    <figure><img src={table.table_image} className="w-72 h-48 object-cover" alt="Album" /></figure>
                                     <div className="card-body">
                                         <h2 className="card-title">{table.table_name}</h2>
                                         <p>Time slot {reservationInfo.time}</p>
                                         <div className="card-actions justify-end">
-                                            <button onClick={() => handleBookingTable(table._id, table.table_name)} className="reservationBtn">Book Now</button>
+                                            <button onClick={() => handleBookingTable(table._id, table.table_name, table.table_image)} className="reservationBtn">Book Now</button>
                                         </div>
                                     </div>
                                 </div>

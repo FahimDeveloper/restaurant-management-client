@@ -4,14 +4,25 @@ import useAuth from "../../../hooks/useAuth";
 import Container from "../../../components/Shared/Container";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import Swal from "sweetalert2";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import OrderInfo from "./OrderInfo";
+import ReservedInfo from "./ReservedInfo";
 
 const OrderAndReservation = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user } = useAuth();
-    const { data: orderdInfo = [], isLoading, refetch } = useQuery({
+    const { data: orderdInfo = [], refetch: orderedRefetch } = useQuery({
         queryKey: ["orderedInfo", user?.email],
         queryFn: async () => {
             const res = await axiosSecure(`/orderedInfo/${user?.email}`)
+            return res.data
+        }
+    });
+    const { data: tableReservedInfo = [] } = useQuery({
+        queryKey: ["reservedInfo", user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure(`/tableReservationInfo/${user?.email}`)
             return res.data
         }
     });
@@ -35,7 +46,7 @@ const OrderAndReservation = () => {
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        refetch()
+                        orderedRefetch()
                     }
                 }).catch(error => console.log(error.message));
             }
@@ -45,40 +56,42 @@ const OrderAndReservation = () => {
         <Container>
             <div className="pb-10 pt-24 space-y-16">
                 <SectionTitle subheading="10:00am 10:00pm" heading="Your Ordered Information" />
-                <div className="overflow-x-auto">
-                    <table className="table">
-                        <thead className="text-center">
-                            <tr>
-                                <th>#</th>
-                                <th>Customer name</th>
-                                <th>Customer Email</th>
-                                <th>Total Item</th>
-                                <th>Total Price</th>
-                                <th>Status</th>
-                                <th>Details</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-center">
+                <Tabs className="space-y-10">
+                    <TabList>
+                        <Tab>Ordered Information</Tab>
+                        <Tab>Table Reserved Information</Tab>
+                    </TabList>
+                    <TabPanel>
+                        <div className="overflow-x-auto">
+                            <table className="table">
+                                <thead className="text-center">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer name</th>
+                                        <th>Customer Email</th>
+                                        <th>Total Item</th>
+                                        <th>Total Price</th>
+                                        <th>Status</th>
+                                        <th>Details</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-center">
+                                    {
+                                        orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} />)
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div className="grid grid-cols-3 gap-5">
                             {
-                                orderdInfo.map((order, index) => {
-                                    return (
-                                        <tr key={order._id}>
-                                            <th>{index + 1}</th>
-                                            <td>{order.userName}</td>
-                                            <td>{order.userEmail}</td>
-                                            <td>{order.menuItems.length}</td>
-                                            <td>$45</td>
-                                            <td>{order.status}</td>
-                                            <td><button className="btn-sm rounded-lg btn-secondary">View Details</button></td>
-                                            <td><button onClick={() => handleCancelOrder(order._id)} className="btn-sm rounded-lg btn-error">Cancel order</button></td>
-                                        </tr>
-                                    )
-                                })
+                                tableReservedInfo.map(table => table.booking_list.map((booking, index) => <ReservedInfo key={index} booking={booking} />))
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        </div>
+                    </TabPanel>
+                </Tabs>
             </div>
         </Container>
     );

@@ -9,6 +9,7 @@ const CartITem = ({ item, handleRemoveCart }) => {
                 <button onClick={() => handleRemoveCart(item._id)} className="btn-cross">✕</button>
                 <h2 className="card-title">{item.name}</h2>
                 <p>{item.recipe}</p>
+                <p className="text-base">Category: {item.category}</p>
                 <div className="flex justify-between items-center">
                     <p className="text-base">${item.price}</p>
                     <div className="flex items-center">

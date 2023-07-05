@@ -14,6 +14,7 @@ const SingleCategoryItems = ({ items }) => {
             menuItemId: item._id,
             name: item.name,
             recipe: item.recipe,
+            category: item.category,
             price: item.price,
             image: item.image,
             quantity: 1,

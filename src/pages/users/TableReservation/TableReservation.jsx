@@ -1,4 +1,3 @@
-import axios from "axios";
 import Container from "../../../components/Shared/Container";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
@@ -22,7 +21,7 @@ const TableReservation = () => {
             time: data.time
         }
         setReservationInfo(data);
-        axios.post("http://localhost:5000/tableInfo", findTable).then(res => {
+        axiosSecure.post("/tableInfo", findTable).then(res => {
             setTable(res.data)
         })
     };

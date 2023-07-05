@@ -10,7 +10,6 @@ const Navbar = () => {
     const { user, logOut } = useAuth();
     const { userRole } = useUser();
     const { cartData } = useCartData();
-    console.log(cartData)
     return (
         <div className="fixed top-0 left-0 w-full z-10 bg-black bg-opacity-60 text-base-100">
             <Container>
@@ -24,7 +23,7 @@ const Navbar = () => {
                         <NavLink to="table_reservation">Table Reservation</NavLink>
                         {
                             user ? <>
-                                <NavLink to="order">Order</NavLink>
+                                <NavLink to="order_reservation">Order & Reservation</NavLink>
                                 {
                                     !!userRole && userRole === "admin" ?
                                         <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
@@ -35,7 +34,7 @@ const Navbar = () => {
                     </div>
                     <div className="flex gap-5">
                         <div className="indicator">
-                            <HiOutlineShoppingCart className="text-2xl" />
+                            <Link to="/cartItem"><HiOutlineShoppingCart className="text-2xl" /></Link>
                             {
                                 cartData.length > 0 ?
                                     <span className="badge badge-sm indicator-item">{cartData.length}</span>

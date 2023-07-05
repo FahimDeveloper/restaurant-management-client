@@ -4,7 +4,6 @@ import {
 import Home from "../pages/users/Home/Home";
 import TableReservation from "../pages/users/TableReservation/TableReservation";
 import DigitalMenu from "../pages/users/DigitalMenu/DigitalMenu";
-import Order from "../pages/users/Order/Order";
 import RestaurantAnalytics from "../pages/admin/RestaurantAnalytics/RestaurantAnalytics";
 import Dashboard from "../pages/admin/layout/Dashboard";
 import CustomerOrder from "../pages/admin/CustomerOrder/CustomerOrder";
@@ -16,6 +15,8 @@ import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
 import UserPrivetRoute from "./userPrivetRoute";
 import AuthPrivetRoute from "./AuthPrivetRoute";
+import OrderAndReservation from "../pages/users/OrderAndReservation/OrderAndReservation";
+import Cart from "../pages/users/Cart/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -23,7 +24,8 @@ export const router = createBrowserRouter([
             { path: '/', element: <Home /> },
             { path: 'table_reservation', element: <TableReservation /> },
             { path: 'digital_menu', element: <DigitalMenu /> },
-            { path: 'order', element: <UserPrivetRoute><Order /></UserPrivetRoute> },
+            { path: 'cartItem', element: <Cart /> },
+            { path: 'order_reservation', element: <UserPrivetRoute><OrderAndReservation /></UserPrivetRoute> },
             { path: 'login', element: <AuthPrivetRoute><Login /></AuthPrivetRoute> },
             { path: 'register', element: <AuthPrivetRoute><Register /></AuthPrivetRoute> },
         ]

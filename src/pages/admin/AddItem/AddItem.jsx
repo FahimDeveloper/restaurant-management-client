@@ -4,12 +4,14 @@ import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const AddItem = () => {
     const img_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_KEY;
     const { register, handleSubmit, reset } = useForm();
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
     const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -23,6 +25,7 @@ const AddItem = () => {
                 data.image = imgURL;
                 data.price = parseInt(data.price)
                 data.available_item = parseInt(data.available_item)
+                data.date = new Date();
                 axiosSecure.post(`/addMenuItem/${user?.email}`, data).then(data => {
                     if (data.data.insertedId) {
                         Swal.fire({
@@ -33,6 +36,7 @@ const AddItem = () => {
                             timer: 1500
                         })
                         reset();
+                        navigate('/fleksa_admin/manage_items')
                     }
                 })
             }

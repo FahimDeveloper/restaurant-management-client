@@ -1,6 +1,6 @@
 import { BiRestaurant } from "react-icons/bi";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SectionTitle from "../../../../components/Shared/SectionTitle/SectionTitle";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
@@ -10,6 +10,7 @@ const UpdateItem = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
     const [updatedItem, setUpdatedItem] = useState({});
     useEffect(() => {
         axiosSecure(`/singleMenuItem/${user?.email}/${id}`).then(data => {
@@ -24,7 +25,8 @@ const UpdateItem = () => {
         const price = parseInt(form.price.value)
         const available_item = parseInt(form.available_item.value)
         const recipe = form.recipe.value
-        const menuData = { name, category, price, available_item, recipe }
+        const date = new Date();
+        const menuData = { name, category, price, available_item, recipe, date }
         axiosSecure.put(`/updateMenuItem/${user?.email}/${updatedItem._id}`, menuData).then(data => {
             if (data.data.modifiedCount > 0) {
                 Swal.fire({
@@ -34,12 +36,13 @@ const UpdateItem = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate('/fleksa_admin/manage_items')
             }
         })
     }
     return (
         <div className="py-16 space-y-16">
-            <SectionTitle subheading="Hurry up" heading="Manage all items" />
+            <SectionTitle subheading="Hurry up" heading="update item information" />
             <form onSubmit={handleSubmit} className="space-y-2 border border-secondary rounded-lg p-10">
                 <div className="form-control w-full">
                     <label className="label">

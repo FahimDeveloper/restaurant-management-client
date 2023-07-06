@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 
-const SingleMenuItem = ({ item, index }) => {
+const SingleMenuItem = ({ item, index, handleDeleteMenuItem }) => {
     return (
         <tr>
             <th>{index + 1}</th>
@@ -16,8 +16,13 @@ const SingleMenuItem = ({ item, index }) => {
             <td>{item.category}</td>
             <td>{item.price}</td>
             <td>{item.available_item}</td>
-            <td><Link to={`update_item/${item._id}`}><button className="btn btn-sm btn-secondary">update</button></Link></td>
-            <td><button className="btn btn-sm btn-error">delete</button></td>
+            <td>12-03-2023</td>
+            <td>
+                <div className="flex gap-2 items-center justify-center">
+                    <Link to={`update_item/${item._id}`}><button className="btn btn-sm btn-secondary">update</button></Link>
+                    <button onClick={() => handleDeleteMenuItem(item._id)} className="btn btn-sm btn-error">delete</button>
+                </div>
+            </td>
         </tr>
     );
 };

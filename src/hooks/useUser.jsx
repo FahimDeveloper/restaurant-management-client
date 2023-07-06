@@ -8,6 +8,7 @@ const useUser = () => {
     const [axiosSecure] = useAxiosSecure();
     const { data: userRole = null, isLoading } = useQuery({
         enabled: !loading && !!user && !!localStorage.getItem('access-token'),
+        queryKey: ["userRole", user?.email],
         queryFn: async () => {
             const res = await axiosSecure(`/userRole/${user?.email}`)
             return res.data.role

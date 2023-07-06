@@ -3,7 +3,7 @@
 const StaffManages = () => {
     return (
         <div>
-            staff manage
+
         </div>
     );
 };

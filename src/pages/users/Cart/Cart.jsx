@@ -46,7 +46,8 @@ const Cart = () => {
             userEmail: user?.email,
             orderedItems: menuIdCollection,
             menuItems: menuItemsCollection,
-            status: 'pending',
+            orderDate: new Date(),
+            status: 'receive',
         }
         axiosSecure.post(`/placedOrder/${user?.email}`, orderData).then(res => {
             if (res.data.insertedId) {

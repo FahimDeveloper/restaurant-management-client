@@ -55,7 +55,7 @@ const UpdateItem = () => {
                         <label className="label">
                             <span className="label-text text-base">Recipe Category</span>
                         </label>
-                        <select name="category" defaultValue={updatedItem.category ? updatedItem.category : ''} className="select select-bordered w-full">
+                        <select defaultValue={updatedItem.category} name="category" className="select select-bordered">
                             <option value="salad">Salad</option>
                             <option value="pizza">Pizza</option>
                             <option value="soup">Soup</option>

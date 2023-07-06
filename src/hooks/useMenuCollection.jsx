@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 
 const useMenuCollection = () => {
     const { data: menuCollection = [], isLoading, refetch } = useQuery({
-        queryKey: 'menuCollection',
+        queryKey: ['menuCollection'],
         queryFn: async () => {
             const res = await axios.get('http://localhost:5000/menuCollection')
             return res.data

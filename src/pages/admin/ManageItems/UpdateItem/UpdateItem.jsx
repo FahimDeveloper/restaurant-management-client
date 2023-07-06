@@ -40,6 +40,10 @@ const UpdateItem = () => {
             }
         })
     }
+    if (Object.keys(updatedItem).length === 0) {
+        // Render loading state until data is fetched
+        return <div>Loading...</div>;
+    }
     return (
         <div className="py-16 space-y-16">
             <SectionTitle subheading="Hurry up" heading="update item information" />

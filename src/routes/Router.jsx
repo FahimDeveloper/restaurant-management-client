@@ -21,6 +21,7 @@ import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
 import ManageItems from "../pages/admin/ManageItems/ManageItems";
 import UpdateItem from "../pages/admin/ManageItems/UpdateItem/UpdateItem";
 import AddStaff from "../pages/admin/StaffManages/AddStaff/AddStaff";
+import UpdateStaffInfo from "../pages/admin/StaffManages/UpdateStaffInfo/UpdateStaffInfo";
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
             { path: "customer_orders", element: <CustomerOrder /> },
             { path: "staff_manages", element: <StaffManages /> },
             { path: "staff_manages/addStaff", element: <AddStaff /> },
+            { path: "staff_manages/updateStaffInfo/:id", element: <UpdateStaffInfo /> },
             { path: "add_item", element: <AddItem /> },
             { path: "manage_items/update_item/:id", element: <UpdateItem /> },
             { path: "manage_reservation", element: <ReservedTable /> },

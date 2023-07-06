@@ -4,19 +4,46 @@ import { useQuery } from "react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 
 const StaffManages = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user } = useAuth();
     const [viewMore, setViewMore] = useState({});
-    const { data: staffsData = [] } = useQuery({
+    const { data: staffsData = [], refetch } = useQuery({
         queryKey: ['staffsData'],
         queryFn: async () => {
             const data = await axiosSecure(`/staffCollection/${user?.email}`);
             return data.data;
         }
-    })
+    });
+    const handleDeleteStaff = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/deleteStaff/${user?.email}/${id}`).then(data => {
+                    if (data.data.deletedCount > 0) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Staff has been deleted',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        refetch();
+                    }
+                })
+            }
+        })
+    }
     return (
         <div className="py-16 space-y-16">
             <SectionTitle subheading={`10:00am - 10:00pm`} heading={'all staff information'} />
@@ -65,8 +92,8 @@ const StaffManages = () => {
                                             <td>{staff.shift}</td>
                                             <td><label onClick={() => setViewMore(staff)} htmlFor="my_modal_2" className="btn btn-outline btn-sm text-xs btn-secondary">view</label></td>
                                             <td className="space-x-2">
-                                                <button className="btn btn-sm text-xs btn-secondary">Update</button>
-                                                <button className="btn btn-sm text-xs btn-error">Delete</button>
+                                                <Link to={`updateStaffInfo/${staff._id}`}><button className="btn btn-sm text-xs btn-secondary">Update</button></Link>
+                                                <button onClick={() => handleDeleteStaff(staff._id)} className="btn btn-sm text-xs btn-error">Delete</button>
                                             </td>
                                         </tr>
                                     )
@@ -80,15 +107,17 @@ const StaffManages = () => {
                         <div className="modal-box space-y-5 w-11/12 max-w-3xl">
                             <label htmlFor="my_modal_2" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
                             <div className="card lg:card-side bg-base-100 shadow-xl">
-                                <figure className="w-2/5"><img src={viewMore.staff_image} className="w-96 h-96" alt="Album" /></figure>
-                                <div className="card-body w-3/5">
+                                <figure className="w-2/5"><img src={viewMore.staff_image} className="w-96 h-80 object-cover" alt="Album" /></figure>
+                                <div className="card-body card-compact space-y-5 w-3/5">
                                     <h2 className="card-title">{viewMore.name}</h2>
-                                    <p>Email: {viewMore.email}</p>
-                                    <p><a href={`tel:${viewMore.phone}`}>Phone: {viewMore.phone}</a></p>
-                                    <p>Date Of Birth: {viewMore.dateOfBirth}</p>
-                                    <p>Schedule: {viewMore.schedule}</p>
-                                    <p>Shift: {viewMore.shift}</p>
-                                    <p>Sellery: {viewMore.sellery}</p>
+                                    <div className="space-y-3">
+                                        <p>Email: {viewMore.email}</p>
+                                        <p><a href={`tel:${viewMore.phone}`}>Phone: {viewMore.phone}</a></p>
+                                        <p>Date Of Birth: {viewMore.dateOfBirth}</p>
+                                        <p>Schedule: {viewMore.schedule}</p>
+                                        <p>Shift: {viewMore.shift}</p>
+                                        <p>Sellery: ${viewMore.sellery}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -19,6 +19,7 @@ import OrderAndReservation from "../pages/users/OrderAndReservation/OrderAndRese
 import Cart from "../pages/users/Cart/Cart";
 import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
 import ManageItems from "../pages/admin/ManageItems/ManageItems";
+import UpdateItem from "../pages/admin/ManageItems/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
             { path: "customer_orders", element: <CustomerOrder /> },
             { path: "staff_manages", element: <StaffManages /> },
             { path: "add_item", element: <AddItem /> },
+            { path: "manage_items/update_item/:id", element: <UpdateItem /> },
             { path: "manage_reservation", element: <ReservedTable /> },
             { path: "allUsersInfo", element: <ManageUsers /> },
             { path: "manage_items", element: <ManageItems /> },

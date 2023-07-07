@@ -13,6 +13,7 @@ import Loading from "../../../components/Shared/Loading/Loading";
 
 const OrderAndReservation = () => {
     const [loading, setLoading] = useState(true);
+    const [viewDetails, setViewDetails] = useState([]);
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
@@ -60,6 +61,11 @@ const OrderAndReservation = () => {
             }
         })
     }
+    const handleViewOrder = (id) => {
+        axiosSecure(`/viewOrderInfo/${user?.email}/${id}`).then(data => {
+            setViewDetails(data.data);
+        });
+    }
     if (loading || orderLoading || tableLoading) {
         return <Loading />
     }
@@ -89,14 +95,14 @@ const OrderAndReservation = () => {
                                 </thead>
                                 <tbody className="text-center">
                                     {
-                                        orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} />)
+                                        orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} handleViewOrder={handleViewOrder} />)
                                     }
                                 </tbody>
                             </table>
-                            {/* <input type="checkbox" id="my_modal_1" className="modal-toggle" />
+                            <input type="checkbox" id="my_modal_4" className="modal-toggle" />
                             <div className="modal">
                                 <div className={`modal-box ${viewDetails.length > 1 ? 'max-w-5xl' : ""} space-y-3`}>
-                                    <label htmlFor="my_modal_1" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                                    <label htmlFor="my_modal_4" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
                                     <h3 className="font-bold text-lg">Total Item {viewDetails.length}</h3>
                                     <div className={`grid ${viewDetails.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
                                         {
@@ -115,7 +121,7 @@ const OrderAndReservation = () => {
                                         }
                                     </div>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </TabPanel>
                     <TabPanel>

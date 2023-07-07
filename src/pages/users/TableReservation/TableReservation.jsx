@@ -27,7 +27,7 @@ const TableReservation = () => {
     const onSubmit = data => {
         setTableLoding(true)
         const findTable = {
-            date: data.date,
+            date: data.reservationDate,
             time: data.time
         }
         setReservationInfo(data);
@@ -39,6 +39,7 @@ const TableReservation = () => {
     const handleBookingTable = (id, tableName, tableImage) => {
         reservationInfo.table_image = tableImage;
         reservationInfo.table_name = tableName;
+        reservationInfo.bookingDate = new Date();
         Swal.fire({
             title: 'Are you sure?',
             text: `You want to reserve ${tableName} for Date ${reservationInfo.date} on ${reservationInfo.time}`,
@@ -78,7 +79,7 @@ const TableReservation = () => {
                                 <label className="label">
                                     <span className="label-text text-base">Date</span>
                                 </label>
-                                <input type="date" {...register('date')} required className="input input-bordered w-full" />
+                                <input type="date" {...register('reservationDate')} required className="input input-bordered w-full" />
                             </div>
                             <div className="form-control w-full">
                                 <label className="label">

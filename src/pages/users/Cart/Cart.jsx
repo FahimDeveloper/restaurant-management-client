@@ -6,9 +6,17 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCartData from "../../../hooks/useCartData";
 import CartITem from "./CartITem";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 
 const Cart = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }, []);
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
@@ -66,6 +74,9 @@ const Cart = () => {
                 }).catch(error => console.log(error.message))
             }
         }).catch(error => console.log(error.message))
+    }
+    if (loading) {
+        return <Loading />
     }
     return (
         <Container>

@@ -1,21 +1,31 @@
 import Container from "../../../components/Shared/Container";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { ImSpinner3 } from "react-icons/im";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 
 const TableReservation = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }, []);
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
+    const [tableLoding, setTableLoding] = useState(false);
     const [table, setTable] = useState([])
     const [reservationInfo, setReservationInfo] = useState({})
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
+        setTableLoding(true)
         const findTable = {
             date: data.date,
             time: data.time
@@ -23,6 +33,7 @@ const TableReservation = () => {
         setReservationInfo(data);
         axiosSecure.post("/tableInfo", findTable).then(res => {
             setTable(res.data)
+            setTableLoding(false)
         })
     };
     const handleBookingTable = (id, tableName, tableImage) => {
@@ -52,6 +63,9 @@ const TableReservation = () => {
                 }).catch(error => console.log(error.message))
             }
         })
+    }
+    if (loading) {
+        return <Loading />
     }
     return (
         <>
@@ -123,22 +137,26 @@ const TableReservation = () => {
                             <button className="btn btn-secondary rounded-full px-16 mt-2">Search Table</button>
                         </div>
                     </form>
-                    <div className="grid grid-cols-3 gap-5 pt-10">
-                        {table.map(table => {
-                            return (
-                                <div key={table._id} className="card lg:card-side card-compact bg-base-100 border p-2 shadow-xl">
-                                    <figure><img src={table.table_image} className="w-72 h-48 object-cover" alt="Album" /></figure>
-                                    <div className="card-body">
-                                        <h2 className="card-title">{table.table_name}</h2>
-                                        <p>Time slot {reservationInfo.time}</p>
-                                        <div className="card-actions justify-end">
-                                            <button onClick={() => handleBookingTable(table._id, table.table_name, table.table_image)} className="reservationBtn">Book Now</button>
+                    {
+                        tableLoding ?
+                            <div className="h-[500px] flex justify-center items-center"><ImSpinner3 className="text-4xl animate-spin text-secondary" /></div>
+                            : <div className="grid grid-cols-3 gap-5 pt-10">
+                                {table.map(table => {
+                                    return (
+                                        <div key={table._id} className="card lg:card-side card-compact bg-base-100 border p-2 shadow-xl">
+                                            <figure><img src={table.table_image} className="w-72 h-48 object-cover" alt="Album" /></figure>
+                                            <div className="card-body">
+                                                <h2 className="card-title">{table.table_name}</h2>
+                                                <p>Time slot {reservationInfo.time}</p>
+                                                <div className="card-actions justify-end">
+                                                    <button onClick={() => handleBookingTable(table._id, table.table_name, table.table_image)} className="reservationBtn">Book Now</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
+                                    )
+                                })}
+                            </div>
+                    }
                 </div>
             </Container>
         </>

@@ -8,18 +8,26 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import OrderInfo from "./OrderInfo";
 import ReservedInfo from "./ReservedInfo";
+import { useEffect, useState } from "react";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 const OrderAndReservation = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }, []);
     const [axiosSecure] = useAxiosSecure();
     const { user } = useAuth();
-    const { data: orderdInfo = [], refetch: orderedRefetch } = useQuery({
+    const { data: orderdInfo = [], isLoading: orderLoading, refetch: orderedRefetch } = useQuery({
         queryKey: ["orderedInfo", user?.email],
         queryFn: async () => {
             const res = await axiosSecure(`/orderedInfo/${user?.email}`)
             return res.data
         }
     });
-    const { data: tableReservedInfo = [] } = useQuery({
+    const { data: tableReservedInfo = [], isLoading: tableLoading } = useQuery({
         queryKey: ["reservedInfo", user?.email],
         queryFn: async () => {
             const res = await axiosSecure(`/tableReservationInfo/${user?.email}`)
@@ -51,6 +59,9 @@ const OrderAndReservation = () => {
                 }).catch(error => console.log(error.message));
             }
         })
+    }
+    if (loading || orderLoading || tableLoading) {
+        return <Loading />
     }
     return (
         <Container>

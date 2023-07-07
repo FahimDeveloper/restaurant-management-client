@@ -5,14 +5,25 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SingleCategoryItems from "./SingleCaregoryItems";
 import Container from "../../../components/Shared/Container";
 import 'react-tabs/style/react-tabs.css';
+import { useEffect, useState } from "react";
+import Loading from "../../../components/Shared/Loading/Loading";
 
 const DigitalMenu = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }, []);
     const { menuCollection } = useMenuCollection();
     const dessert = menuCollection.filter(item => item.category === "dessert");
     const soup = menuCollection.filter(item => item.category === "soup");
     const salad = menuCollection.filter(item => item.category === "salad");
     const pizza = menuCollection.filter(item => item.category === "pizza");
     const drinks = menuCollection.filter(item => item.category === "drinks");
+    if (loading) {
+        return <Loading />
+    }
     return (
         <>
             <SectionCover img={foodCover} heading={"our menu collection"} subheading={'would you like to try a dish?'} />

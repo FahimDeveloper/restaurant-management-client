@@ -24,6 +24,10 @@ const TableReservation = () => {
     const [table, setTable] = useState([])
     const [reservationInfo, setReservationInfo] = useState({})
     const { register, handleSubmit } = useForm();
+    const generateRandomId = () => {
+        const randomId = Math.random().toString(36).substring(2);
+        return randomId;
+    };
     const onSubmit = data => {
         setTableLoding(true)
         const findTable = {
@@ -37,8 +41,11 @@ const TableReservation = () => {
         })
     };
     const handleBookingTable = (id, tableName, tableImage) => {
+        const randomId = generateRandomId();
+        reservationInfo._id = randomId
         reservationInfo.table_image = tableImage;
         reservationInfo.table_name = tableName;
+        reservationInfo.status = "panding";
         reservationInfo.bookingDate = new Date();
         Swal.fire({
             title: 'Are you sure?',

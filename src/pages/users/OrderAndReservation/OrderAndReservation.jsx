@@ -93,6 +93,29 @@ const OrderAndReservation = () => {
                                     }
                                 </tbody>
                             </table>
+                            {/* <input type="checkbox" id="my_modal_1" className="modal-toggle" />
+                            <div className="modal">
+                                <div className={`modal-box ${viewDetails.length > 1 ? 'max-w-5xl' : ""} space-y-3`}>
+                                    <label htmlFor="my_modal_1" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                                    <h3 className="font-bold text-lg">Total Item {viewDetails.length}</h3>
+                                    <div className={`grid ${viewDetails.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
+                                        {
+                                            viewDetails.map(item => {
+                                                return (
+                                                    <div key={item._id} className="card card-compact card-side bg-base-100 shadow-xl">
+                                                        <figure className="w-1/2"><img src={item.image} className="w-full h-52 object-cover" alt="Movie" /></figure>
+                                                        <div className="card-body w-1/2">
+                                                            <h2 className="card-title">{item.name}</h2>
+                                                            <p className="text-lg">Category {item.category}</p>
+                                                            <p className="text-lg">quantity : 1</p>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div> */}
                         </div>
                     </TabPanel>
                     <TabPanel>

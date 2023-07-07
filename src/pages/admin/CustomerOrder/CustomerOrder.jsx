@@ -4,7 +4,7 @@ import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import { useQuery } from 'react-query';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import SingleOrderInfo from './components/SingleOrderInfo/SingleOrderInfo';
+import SingleOrderInfo from './SingleOrderInfo/SingleOrderInfo';
 
 const CustomerOrder = () => {
     const { user } = useAuth();

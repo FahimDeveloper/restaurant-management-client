@@ -8,15 +8,13 @@ import CartITem from "./CartITem";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../../../components/Shared/Loading/Loading";
+import { toast } from "react-hot-toast";
 
 
 const Cart = () => {
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 500)
-    }, []);
+    const [count, setCount] = useState(true);
+    const [totalPrice, setTotalPrice] = useState(0);
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
@@ -45,6 +43,17 @@ const Cart = () => {
             }
         })
     }
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }, []);
+    useEffect(() => {
+        const allCartItemPrices = []
+        cartData.map(item => allCartItemPrices.push(item.price * item.quantity));
+        const calculatePrice = allCartItemPrices.reduce((sum, currentValue) => sum + currentValue, 0)
+        setTotalPrice(calculatePrice);
+    }, [cartData, count]);
     const handlePlaceOrder = () => {
         const menuIdCollection = []
         const menuItemsCollection = []
@@ -56,6 +65,7 @@ const Cart = () => {
             menuItems: menuItemsCollection,
             orderDate: new Date(),
             status: 'receive',
+            totalPrice: totalPrice
         }
         axiosSecure.post(`/placedOrder/${user?.email}`, orderData).then(res => {
             if (res.data.insertedId) {
@@ -75,6 +85,28 @@ const Cart = () => {
             }
         }).catch(error => console.log(error.message))
     }
+    const handleQuantityPlus = (id, quantity) => {
+        axiosSecure.put(`/quantityPlus/${user?.email}/${id}`, { quantity }).then(res => {
+            if (res.data.modifiedCount) {
+                refetch();
+                toast.success('Item quantity increase')
+                setCount(!count)
+            } else {
+                toast.error('Quantity maximum 5')
+            }
+        }).catch(error => console.log(error.message))
+    }
+    const handleQuantityMinus = (id, quantity) => {
+        axiosSecure.put(`/quantityMinus/${user?.email}/${id}`, { quantity }).then(res => {
+            if (res.data.modifiedCount) {
+                toast.success('Item quantity decrease')
+                setCount(!count)
+                refetch();
+            } else {
+                toast.error('Quantity minimum 1 need')
+            }
+        }).catch(error => console.log(error.message))
+    }
     if (loading) {
         return <Loading />
     }
@@ -88,17 +120,17 @@ const Cart = () => {
                             <div className="flex justify-between">
                                 <div className="text-xl flex gap-5">
                                     <p>Total Item: {cartData.length}</p>
-                                    <p>Total Price:</p>
+                                    <p>Total Price: {totalPrice}</p>
                                 </div>
                                 <button onClick={handlePlaceOrder} className="btn btn-secondary px-10 rounded-full">Placed Order</button>
                             </div>
                             <div className="grid grid-cols-3 gap-5">
-                                {cartData.map(item => <CartITem key={item._id} item={item} handleRemoveCart={handleRemoveCart} />)}
+                                {cartData.map(item => <CartITem key={item._id} item={item} handleRemoveCart={handleRemoveCart} handleQuantityPlus={handleQuantityPlus} handleQuantityMinus={handleQuantityMinus} />)}
                             </div>
                         </div> :
                         <div className="flex h-[650px] justify-center items-center">
                             {/* eslint-disable-next-line react/no-unescaped-entities */}
-                            <h3 className="text-3xl font-semibold">Your cart is empty, Please add some food</h3>
+                            <p className="text-3xl font-semibold">Your cart is empty, Please add some food</p>
                         </div>
                 }
             </div>

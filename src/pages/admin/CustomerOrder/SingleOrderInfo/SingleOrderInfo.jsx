@@ -1,17 +1,16 @@
 import Swal from "sweetalert2";
-import useAuth from "../../../../../hooks/useAuth";
-import useAxiosSecure from "../../../../../hooks/useAxiosSecure";
 import { useState } from "react";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 
 const SingleOrderInfo = ({ orders, refetch }) => {
     const [axiosSecure] = useAxiosSecure();
-    const [viewDetails, setViewDetails] = useState([])
+    const [viewDetails, setViewDetails] = useState([]);
     const { user } = useAuth();
     const handleDeleteOrder = (id) => {
         console.log(id)
     }
-    console.log(viewDetails)
     const handleChangeStutas = (e, id) => {
         const status = e.target.value
         axiosSecure.put(`/changeStatus/${user?.email}/${id}`, { status }).then(data => {
@@ -25,15 +24,15 @@ const SingleOrderInfo = ({ orders, refetch }) => {
                 })
                 refetch();
             }
-        }).catch(error => console.log(error))
+        }).catch(error => console.log(error));
     }
     const handleViewOrder = (id) => {
         axiosSecure(`/viewOrderInfo/${user?.email}/${id}`).then(data => {
-            setViewDetails(data.data)
+            setViewDetails(data.data);
         });
     }
     return (
-        <div>
+        <>
             <div className="overflow-x-auto">
                 <table className="table">
                     <thead>
@@ -57,7 +56,7 @@ const SingleOrderInfo = ({ orders, refetch }) => {
                                         <td>{order.userName}</td>
                                         <td>{order.userEmail}</td>
                                         <td>{order.orderedItems.length}</td>
-                                        <td>$45</td>
+                                        <td>${order.totalPrice}</td>
                                         <td>
                                             <select disabled={order.status == "served" ? true : false} defaultValue={order.status} onChange={(e) => handleChangeStutas(e, order._id)} className="select select-bordered max-w-xs">
                                                 <option value="receive">receive</option>
@@ -70,7 +69,7 @@ const SingleOrderInfo = ({ orders, refetch }) => {
                                             <label onClick={() => handleViewOrder(order._id)} htmlFor="my_modal_1" className="btn btn-sm btn-secondary">view order</label>
                                         </td>
                                         <td>
-                                            <button disabled={order.status == "ready to serve" || order.status == "served" ? true : false} onClick={() => handleDeleteOrder(order._id)} className="btn btn-sm btn-error">Cancel Order</button>
+                                            <button disabled={order.status == "ready to serve" || order.status == "served" ? true : false} onClick={() => handleDeleteOrder(order._id)} className="btn btn-sm disabled btn-error">Cancel Order</button>
                                         </td>
                                     </tr>
                                 )
@@ -95,14 +94,14 @@ const SingleOrderInfo = ({ orders, refetch }) => {
                                                 <p className="text-lg">quantity : 1</p>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })
                             }
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -66,6 +66,13 @@ const OrderAndReservation = () => {
             setViewDetails(data.data);
         });
     }
+    const handleCancelBooking = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Working Process',
+            text: 'Still we are working for this features',
+        })
+    }
     if (loading || orderLoading || tableLoading) {
         return <Loading />
     }
@@ -127,7 +134,7 @@ const OrderAndReservation = () => {
                     <TabPanel>
                         <div className="grid grid-cols-3 gap-5">
                             {
-                                tableReservedInfo.map(table => table.booking_list.map((booking, index) => <ReservedInfo key={index} booking={booking} />))
+                                tableReservedInfo.map(table => <ReservedInfo key={table._id} booking={table.booking_list} handleCancelBooking={handleCancelBooking} />)
                             }
                         </div>
                     </TabPanel>

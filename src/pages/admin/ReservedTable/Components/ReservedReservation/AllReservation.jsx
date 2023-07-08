@@ -1,15 +1,10 @@
 import moment from "moment";
-import useReservationData from "../../../../../../../hooks/useReservationData";
+import useReservationData from "../../../../../hooks/useReservationData";
 
 
-const TodaysReservation = () => {
+const AllReservation = () => {
     const { reservationData } = useReservationData();
-    const date = new Date();
-    const currentDate = date.toDateString();
-    const filteredData = reservationData.filter(data => {
-        const reservationDate = new Date(data.reservationDate).toDateString();
-        return reservationDate === currentDate;
-    });
+    const allReservaion = reservationData.filter(data => data.status === "accept");
     return (
         <div>
             <div className="overflow-x-auto">
@@ -27,7 +22,7 @@ const TodaysReservation = () => {
                     </thead>
                     <tbody className="text-center">
                         {
-                            filteredData.map((data, index) => {
+                            allReservaion.map((data, index) => {
                                 return (
                                     <tr key={data._id}>
                                         <th>{index + 1}</th>
@@ -50,4 +45,4 @@ const TodaysReservation = () => {
     );
 };
 
-export default TodaysReservation;
+export default AllReservation;

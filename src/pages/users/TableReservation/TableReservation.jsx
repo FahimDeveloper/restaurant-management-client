@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { ImSpinner3 } from "react-icons/im";
 import Loading from "../../../components/Shared/Loading/Loading";
+import moment from "moment";
 
 
 const TableReservation = () => {
@@ -43,13 +44,14 @@ const TableReservation = () => {
     const handleBookingTable = (id, tableName, tableImage) => {
         const randomId = generateRandomId();
         reservationInfo._id = randomId
+        reservationInfo.table_id = id;
         reservationInfo.table_image = tableImage;
         reservationInfo.table_name = tableName;
         reservationInfo.status = "panding";
         reservationInfo.bookingDate = new Date();
         Swal.fire({
             title: 'Are you sure?',
-            text: `You want to reserve ${tableName} for Date ${reservationInfo.date} on ${reservationInfo.time}`,
+            text: `You want to reserve ${tableName} for ${moment(reservationInfo.reservationDate).format("ddd, MMM Do YY,")} on ${reservationInfo.time}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

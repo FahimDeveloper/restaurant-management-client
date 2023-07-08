@@ -2,7 +2,7 @@
 
 const OrderInfo = ({ order, index, handleCancelOrder, handleViewOrder }) => {
     return (
-        <tr>
+        <tr className="w-full">
             <th>{index + 1}</th>
             <td>{order.userName}</td>
             <td>{order.userEmail}</td>

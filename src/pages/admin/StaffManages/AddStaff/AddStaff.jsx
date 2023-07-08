@@ -91,8 +91,7 @@ const AddStaff = () => {
                         <select required {...register('shift')} className="select select-bordered w-full">
                             <option disabled selected>Select staff shift</option>
                             <option>Morning</option>
-                            <option>Noon</option>
-                            <option>Afternoon</option>
+                            <option>Day</option>
                             <option>evening</option>
                         </select>
                     </div>

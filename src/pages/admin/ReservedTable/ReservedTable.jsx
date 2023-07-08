@@ -2,8 +2,8 @@ import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import PandingReservation from "./Components/PandingReservation/PandingReservation";
-import AllReservation from "./Components/ReservedReservation/Components/AllReservation/AllReservation";
-import TodaysReservation from "./Components/ReservedReservation/Components/TodaysReservation/TodaysReservation";
+import AllReservation from "./Components/ReservedReservation/AllReservation";
+import TodaysReservation from "./Components/ReservedReservation/TodaysReservation";
 
 const ReservedTable = () => {
     return (

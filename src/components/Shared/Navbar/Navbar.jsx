@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import { BiUserCircle } from "react-icons/bi";
+import { PiUserCircleLight } from "react-icons/pi";
 import Container from "../Container";
 import useAuth from "../../../hooks/useAuth";
 import useUser from "../../../hooks/useUser";
@@ -18,12 +18,12 @@ const Navbar = () => {
                         <h3 className="text-4xl font-medium italic">Restaurant</h3>
                     </div>
                     <div className="space-x-8 text-lg font-medium">
-                        <NavLink to="/">Home</NavLink>
-                        <NavLink to="digital_menu">Menu</NavLink>
-                        <NavLink to="table_reservation">Table Reservation</NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="/">Home</NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="digital_menu">Menu</NavLink>
+                        <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="table_reservation">Table Reservation</NavLink>
                         {
                             user ? <>
-                                <NavLink to="order_reservation">Order & Reservation</NavLink>
+                                <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="order_reservation">Order & Reservation</NavLink>
                                 {
                                     !!userRole && userRole === "admin" ?
                                         <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
@@ -32,18 +32,18 @@ const Navbar = () => {
                             </> : ''
                         }
                     </div>
-                    <div className="flex gap-5">
+                    <div className="flex gap-5 items-center">
                         <div className="indicator">
-                            <Link to="/cartItem"><HiOutlineShoppingCart className="text-2xl" /></Link>
+                            <Link to="/cartItem"><HiOutlineShoppingCart className="text-3xl" /></Link>
                             {
                                 cartData.length > 0 ?
-                                    <span className="badge badge-sm indicator-item">{cartData.length}</span>
+                                    <span className="badge indicator-item">{cartData.length}</span>
                                     : ''
                             }
                         </div>
                         <div className="dropdown dropdown-end">
                             <label tabIndex={0}>
-                                <BiUserCircle className="text-2xl cursor-pointer" />
+                                <PiUserCircleLight className="text-4xl cursor-pointer" />
                             </label>
                             <ul tabIndex={0} className="menu text-neutral menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 {

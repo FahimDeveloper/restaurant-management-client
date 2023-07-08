@@ -20,16 +20,16 @@ const Navbar = () => {
                     <div className="space-x-8 text-lg font-medium">
                         <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="/">Home</NavLink>
                         <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="digital_menu">Menu</NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="table_reservation">Table Reservation</NavLink>
                         {
                             user ? <>
+                                <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="table_reservation">Table Reservation</NavLink>
                                 <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="order_reservation">Order & Reservation</NavLink>
                                 {
                                     !!userRole && userRole === "admin" ?
                                         <NavLink to="/fleksa_admin/restaurant_analytics">Dashboard</NavLink>
                                         : ""
                                 }
-                            </> : ''
+                            </> : <NavLink className={({ isActive }) => isActive ? "text-primary" : ""} to="/login">Login</NavLink>
                         }
                     </div>
                     <div className="flex gap-5 items-center">

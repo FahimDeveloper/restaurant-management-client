@@ -5,7 +5,7 @@ const useMenuCollection = () => {
     const { data: menuCollection = [], isLoading, refetch } = useQuery({
         queryKey: ['menuCollection'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/menuCollection')
+            const res = await axios.get('https://restaurant-management-server-eight.vercel.app/menuCollection')
             return res.data
         }
     })

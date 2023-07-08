@@ -32,11 +32,13 @@ const Cart = () => {
             if (result.isConfirmed) {
                 axiosSecure.delete(`/removeCartItem/${user?.email}/${id}`).then(res => {
                     if (res.data.deletedCount > 0) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Item remove successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                         refetch();
                     }
                 }).catch(error => console.log(error.message))
@@ -55,6 +57,7 @@ const Cart = () => {
         setTotalPrice(calculatePrice);
     }, [cartData, count]);
     const handlePlaceOrder = () => {
+        setLoading(true)
         const menuIdCollection = []
         const menuItemsCollection = []
         cartData.map(item => { menuIdCollection.push(item.menuItemId), menuItemsCollection.push(item.name) });
@@ -71,7 +74,7 @@ const Cart = () => {
             if (res.data.insertedId) {
                 axiosSecure.delete(`/removeAllCartItem/${user?.email}`).then(res => {
                     if (res.data.deletedCount > 0) {
-                        refetch()
+                        setLoading(false);
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -128,7 +131,7 @@ const Cart = () => {
                                 {cartData.map(item => <CartITem key={item._id} item={item} handleRemoveCart={handleRemoveCart} handleQuantityPlus={handleQuantityPlus} handleQuantityMinus={handleQuantityMinus} />)}
                             </div>
                         </div> :
-                        <div className="flex h-[650px] justify-center items-center">
+                        <div className="flex justify-center items-center full-center">
                             {/* eslint-disable-next-line react/no-unescaped-entities */}
                             <p className="text-3xl font-semibold">Your cart is empty, Please add some food</p>
                         </div>

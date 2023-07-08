@@ -47,9 +47,13 @@
 }
 
 .active_admin_nav {
-    @apply bg-white text-neutral border border-neutral
+    @apply bg-white text-secondary border border-neutral
 }
 
 .disabled:disabled {
     @apply bg-gray-200 text-gray-400 cursor-not-allowed border-2 border-gray-300
+}
+
+.full-center {
+    height: calc(100vh - 500px);
 }

@@ -22,13 +22,14 @@ import ManageItems from "../pages/admin/ManageItems/ManageItems";
 import UpdateItem from "../pages/admin/ManageItems/UpdateItem/UpdateItem";
 import AddStaff from "../pages/admin/StaffManages/AddStaff/AddStaff";
 import UpdateStaffInfo from "../pages/admin/StaffManages/UpdateStaffInfo/UpdateStaffInfo";
+import AdminPrivetRoute from "./AdminPrivetRoute";
 
 export const router = createBrowserRouter([
     {
         path: '/', element: <MainLayout />, children: [
             { path: '/', element: <Home /> },
-            { path: 'table_reservation', element: <TableReservation /> },
             { path: 'digital_menu', element: <DigitalMenu /> },
+            { path: 'table_reservation', element: <UserPrivetRoute><TableReservation /></UserPrivetRoute> },
             { path: 'cartItem', element: <Cart /> },
             { path: 'order_reservation', element: <UserPrivetRoute><OrderAndReservation /></UserPrivetRoute> },
             { path: 'login', element: <AuthPrivetRoute><Login /></AuthPrivetRoute> },
@@ -36,17 +37,17 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: "/fleksa_admin", element: <Dashboard />, children: [
-            { path: 'restaurant_analytics', element: <RestaurantAnalytics /> },
-            { path: "customer_orders", element: <CustomerOrder /> },
-            { path: "staff_manages", element: <StaffManages /> },
-            { path: "staff_manages/addStaff", element: <AddStaff /> },
-            { path: "staff_manages/updateStaffInfo/:id", element: <UpdateStaffInfo /> },
-            { path: "add_item", element: <AddItem /> },
-            { path: "manage_items/update_item/:id", element: <UpdateItem /> },
-            { path: "manage_reservation", element: <ReservedTable /> },
-            { path: "allUsersInfo", element: <ManageUsers /> },
-            { path: "manage_items", element: <ManageItems /> },
+        path: "/fleksa_admin", element: <AdminPrivetRoute><Dashboard /></AdminPrivetRoute>, children: [
+            { path: 'restaurant_analytics', element: <AdminPrivetRoute><RestaurantAnalytics /></AdminPrivetRoute> },
+            { path: "customer_orders", element: <AdminPrivetRoute><CustomerOrder /></AdminPrivetRoute> },
+            { path: "staff_manages", element: <AdminPrivetRoute><StaffManages /></AdminPrivetRoute> },
+            { path: "staff_manages/addStaff", element: <AdminPrivetRoute><AddStaff /></AdminPrivetRoute> },
+            { path: "staff_manages/updateStaffInfo/:id", element: <AdminPrivetRoute><UpdateStaffInfo /></AdminPrivetRoute> },
+            { path: "add_item", element: <AdminPrivetRoute><AddItem /></AdminPrivetRoute> },
+            { path: "manage_items/update_item/:id", element: <AdminPrivetRoute><UpdateItem /></AdminPrivetRoute> },
+            { path: "manage_reservation", element: <AdminPrivetRoute><ReservedTable /></AdminPrivetRoute> },
+            { path: "allUsersInfo", element: <AdminPrivetRoute><ManageUsers /></AdminPrivetRoute> },
+            { path: "manage_items", element: <AdminPrivetRoute><ManageItems /></AdminPrivetRoute> },
         ]
     }
 ])

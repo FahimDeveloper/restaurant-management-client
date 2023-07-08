@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+import { PiSpinner } from "react-icons/pi";
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
@@ -13,6 +15,7 @@ import Loading from "../../../components/Shared/Loading/Loading";
 
 const OrderAndReservation = () => {
     const [loading, setLoading] = useState(true);
+    const [viewloading, setViewLoading] = useState(true);
     const [viewDetails, setViewDetails] = useState([]);
     useEffect(() => {
         setTimeout(() => {
@@ -62,8 +65,10 @@ const OrderAndReservation = () => {
         })
     }
     const handleViewOrder = (id) => {
+        setViewLoading(true)
         axiosSecure(`/viewOrderInfo/${user?.email}/${id}`).then(data => {
             setViewDetails(data.data);
+            setViewLoading(false)
         });
     }
     const handleCancelBooking = () => {
@@ -86,57 +91,70 @@ const OrderAndReservation = () => {
                         <Tab>Table Reserved Information</Tab>
                     </TabList>
                     <TabPanel>
-                        <div className="overflow-x-auto">
-                            <table className="table">
-                                <thead className="text-center">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Customer name</th>
-                                        <th>Customer Email</th>
-                                        <th>Total Item</th>
-                                        <th>Total Price</th>
-                                        <th>Status</th>
-                                        <th>Details</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-center">
-                                    {
-                                        orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} handleViewOrder={handleViewOrder} />)
-                                    }
-                                </tbody>
-                            </table>
-                            <input type="checkbox" id="my_modal_4" className="modal-toggle" />
-                            <div className="modal">
-                                <div className={`modal-box ${viewDetails.length > 1 ? 'max-w-5xl' : ""} space-y-3`}>
-                                    <label htmlFor="my_modal_4" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
-                                    <h3 className="font-bold text-lg">Total Item {viewDetails.length}</h3>
-                                    <div className={`grid ${viewDetails.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
-                                        {
-                                            viewDetails.map(item => {
-                                                return (
-                                                    <div key={item._id} className="card card-compact card-side bg-base-100 shadow-xl">
-                                                        <figure className="w-1/2"><img src={item.image} className="w-full h-52 object-cover" alt="Movie" /></figure>
-                                                        <div className="card-body w-1/2">
-                                                            <h2 className="card-title">{item.name}</h2>
-                                                            <p className="text-lg">Category {item.category}</p>
-                                                            <p className="text-lg">quantity : 1</p>
+                        {
+                            orderdInfo.length > 0 ?
+                                <div className="overflow-x-auto">
+                                    <table className="table">
+                                        <thead className="text-center">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Customer name</th>
+                                                <th>Customer Email</th>
+                                                <th>Total Item</th>
+                                                <th>Total Price</th>
+                                                <th>Status</th>
+                                                <th>Details</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-center">
+                                            {
+                                                orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} handleViewOrder={handleViewOrder} />)
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <input type="checkbox" id="my_modal_4" className="modal-toggle" />
+                                    <div className="modal">
+                                        <div className={`modal-box ${viewDetails.length > 1 ? 'max-w-5xl' : ""} space-y-3`}>
+                                            <label htmlFor="my_modal_4" className="btn btn-sm bg-neutral text-white btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                                            {
+                                                viewloading ? <div className="h-[300px] flex items-center justify-center"><PiSpinner className="animate-spin text-4xl text-secondary" /></div>
+                                                    : <>
+                                                        <h3 className="font-bold text-lg">Total Item {viewDetails.length}</h3>
+                                                        <div className={`grid ${viewDetails.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-5`}>
+                                                            {
+                                                                viewDetails.map(item => {
+                                                                    return (
+                                                                        <div key={item._id} className="card card-compact card-side bg-base-100 shadow-xl">
+                                                                            <figure className="w-1/2"><img src={item.image} className="w-full h-52 object-cover" alt="Movie" /></figure>
+                                                                            <div className="card-body w-1/2">
+                                                                                <h2 className="card-title">{item.name}</h2>
+                                                                                <p className="text-lg">Category {item.category}</p>
+                                                                                <p className="text-lg">quantity : 1</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
                                                         </div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
+                                                    </>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                                : <p className="flex items-center justify-center text-3xl font-semibold full-center">You haven't any ordered food, Please order some food</p>
+                        }
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-3 gap-5">
-                            {
-                                tableReservedInfo.map(table => <ReservedInfo key={table._id} booking={table.booking_list} handleCancelBooking={handleCancelBooking} />)
-                            }
-                        </div>
+                        {
+                            tableReservedInfo.length > 0 ?
+                                <div className="grid grid-cols-3 gap-5">
+                                    {
+                                        tableReservedInfo.map(table => <ReservedInfo key={table._id} booking={table.booking_list} handleCancelBooking={handleCancelBooking} />)
+                                    }
+                                </div>
+                                : <p className="flex items-center justify-center text-3xl font-semibold full-center">You haven't any reservation, Please reserve a table</p>
+                        }
                     </TabPanel>
                 </Tabs>
             </div>

@@ -8,7 +8,7 @@ const UserPrivetRoute = ({ children }) => {
     if (loading) {
         return <Loading />
     }
-    if (user) {
+    else if (user) {
         return children;
     } else {
         return <Navigate to="/login" replace={true} />

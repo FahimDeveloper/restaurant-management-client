@@ -5,14 +5,14 @@ import { BiRestaurant, BiSolidBookReader } from "react-icons/bi";
 import { FaUsersGear } from "react-icons/fa6";
 import { BsFillBookmarkCheckFill, BsFillBookmarksFill, BsBookmarks } from "react-icons/bs";
 import { IoRestaurantSharp } from "react-icons/io5";
-import Container from "../../../components/Shared/Container";
+import ContainerAdmin from "../../../components/Shared/ContainerAdmin";
 
 const Dashboard = () => {
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-                <Container><Outlet /></Container>
+                <ContainerAdmin><Outlet /></ContainerAdmin>
                 <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
             </div>
             <div className="drawer-side">

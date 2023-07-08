@@ -2,7 +2,6 @@ import { BsPlus } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
 
 const CartITem = ({ item, handleRemoveCart, handleQuantityPlus, handleQuantityMinus }) => {
-
     return (
         <div className="card card-compact lg:card-side bg-base-100 shadow-xl border">
             <figure className="w-2/5"><img src={item.image} className="w-full h-48 object-cover" alt="Album" /></figure>

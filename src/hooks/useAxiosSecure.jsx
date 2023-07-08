@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 
 const axiosSecure = axios.create({
-    baseURL: "https://restaurant-management-server-eight.vercel.app"
+    baseURL: "http://localhost:5000/"
 })
 const useAxiosSecure = () => {
     const { logOut } = useAuth()

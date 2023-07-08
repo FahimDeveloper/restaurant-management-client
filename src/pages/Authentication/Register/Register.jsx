@@ -24,7 +24,7 @@ const Register = () => {
                     role: "user"
                 }
                 console.log(userData)
-                axios.post('https://restaurant-management-server-eight.vercel.app/newUser', userData).then(data => {
+                axios.post('http://localhost:5000/newUser', userData).then(data => {
                     if (data.data.insertedId) {
                         successRegister();
                     }
@@ -43,7 +43,7 @@ const Register = () => {
                 userInfo: user,
                 role: "user"
             }
-            axios.post('https://restaurant-management-server-eight.vercel.app/newUser', userData).then(data => {
+            axios.post('http://localhost:5000/newUser', userData).then(data => {
                 if (data.data.insertedId) {
                     successRegister();
                 } else {

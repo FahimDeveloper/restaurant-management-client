@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
             if (user) {
-                axios.post("https://restaurant-management-server-eight.vercel.app/jwt", user.email).then(data => {
+                axios.post("http://localhost:5000/jwt", user.email).then(data => {
                     localStorage.setItem('access-token', data.data);
                     setLoading(false);
                 })

@@ -6,7 +6,7 @@ const OrderInfo = ({ order, index, handleCancelOrder, handleViewOrder }) => {
             <th>{index + 1}</th>
             <td>{order.userName}</td>
             <td>{order.userEmail}</td>
-            <td>{order.menuItems.length}</td>
+            <td>{order.orderedItems.length}</td>
             <td>${order.totalPrice}</td>
             <td>{order.status}</td>
             <td><label htmlFor="my_modal_4" onClick={() => handleViewOrder(order._id)} className="btn btn-sm rounded-lg btn-secondary">View Details</label></td>

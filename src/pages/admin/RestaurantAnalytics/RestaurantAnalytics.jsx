@@ -30,7 +30,6 @@ const RestaurantAnalytics = () => {
             setChartWidth(600)
         }
         axiosSecure(`/countOfUsersAndStaffs/${user?.email}`).then(res => {
-            console.log("hello")
             setCount(res.data)
         })
     }, [isLoading, adminAnalytics, axiosSecure, user])

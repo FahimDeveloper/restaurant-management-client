@@ -10,14 +10,25 @@ import Swal from "sweetalert2";
 const StaffManages = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user } = useAuth();
-    const [viewMore, setViewMore] = useState({});
-    const { data: staffsData = [], refetch } = useQuery({
-        queryKey: ['staffsData'],
+    const [searchText, setSearchText] = useState("");
+    const { data: allStaffsData = [] } = useQuery({
+        queryKey: ["allStaffData"],
         queryFn: async () => {
-            const data = await axiosSecure(`/staffCollection/${user?.email}`);
+            const data = await axiosSecure(`/allStaffCollection/${user?.email}`);
             return data.data;
         }
     });
+    const [viewMore, setViewMore] = useState({});
+    const { data: staffsData = [], refetch } = useQuery({
+        queryKey: ["searchStaffData"],
+        queryFn: async () => {
+            const data = await axiosSecure(`/staffCollection/${user?.email}?searchText=${searchText}`);
+            return data.data;
+        }
+    });
+    const handleSearch = () => {
+        refetch();
+    }
     const handleDeleteStaff = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -51,8 +62,8 @@ const StaffManages = () => {
                 <div className="flex justify-between">
                     <div className="form-control">
                         <div className="input-group">
-                            <input type="text" placeholder="Search by name or phone number" className="input input-bordered w-96" />
-                            <button className="btn btn-secondary btn-square">
+                            <input onChange={(e) => setSearchText(e.target.value)} type="text" placeholder="Search by name or phone number" className="input input-bordered w-96" />
+                            <button onClick={handleSearch} className="btn btn-secondary btn-square">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                             </button>
                         </div>
@@ -75,7 +86,7 @@ const StaffManages = () => {
                         </thead>
                         <tbody className="text-center">
                             {
-                                staffsData.map((staff, index) => {
+                                (searchText === "" ? allStaffsData : staffsData).map((staff, index) => {
                                     return (
                                         <tr key={staff._id}>
                                             <th>{index + 1}</th>

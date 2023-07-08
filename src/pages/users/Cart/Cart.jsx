@@ -58,14 +58,11 @@ const Cart = () => {
     }, [cartData, count]);
     const handlePlaceOrder = () => {
         setLoading(true)
-        const menuIdCollection = []
-        const menuItemsCollection = []
-        cartData.map(item => { menuIdCollection.push(item.menuItemId), menuItemsCollection.push(item.name) });
+        const menuIdCollection = cartData.map(item => ({ itemId: item.menuItemId, quantity: item.quantity }));
         const orderData = {
             userName: user?.displayName,
             userEmail: user?.email,
             orderedItems: menuIdCollection,
-            menuItems: menuItemsCollection,
             orderDate: new Date(),
             status: 'receive',
             totalPrice: totalPrice
@@ -94,8 +91,10 @@ const Cart = () => {
                 refetch();
                 toast.success('Item quantity increase')
                 setCount(!count)
-            } else {
+            } else if (res.data.max) {
                 toast.error('Quantity maximum 5')
+            } else {
+                toast.error(res.data.finish)
             }
         }).catch(error => console.log(error.message))
     }

@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 import useReservationData from "../../../../../hooks/useReservationData";
 import useAxiosSecure from "../../../../../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
+import { toast } from "react-hot-toast";
 
 
 const PandingReservation = () => {
@@ -11,13 +11,7 @@ const PandingReservation = () => {
     const handleBookingStatus = (email, id, table_id, status) => {
         axiosSecure.put(`/reservationStatus/${email}/${id}/${table_id}`, { status: status }).then(data => {
             if (data.data.modifiedCount > 0) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: `Reservation has been ${status}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                toast.success(`Reservation has been ${status}`)
                 refetch();
             }
         })

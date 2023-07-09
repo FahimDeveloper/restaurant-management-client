@@ -20,7 +20,7 @@ const DigitalMenu = () => {
     const soup = menuCollection.filter(item => item.category === "soup");
     const salad = menuCollection.filter(item => item.category === "salad");
     const pizza = menuCollection.filter(item => item.category === "pizza");
-    const drinks = menuCollection.filter(item => item.category === "drinks");
+    const drinks = menuCollection.filter(item => item.category === "drink");
     if (loading) {
         return <Loading />
     }

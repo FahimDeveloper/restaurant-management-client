@@ -3,6 +3,7 @@ import { useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { PiSpinner } from "react-icons/pi";
+import { toast } from "react-hot-toast";
 
 
 const SingleOrderInfo = ({ orders, refetch }) => {
@@ -14,13 +15,7 @@ const SingleOrderInfo = ({ orders, refetch }) => {
         const status = e.target.value
         axiosSecure.put(`/changeStatus/${user?.email}/${id}`, { status }).then(data => {
             if (data.data.modifiedCount > 0) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'status changed successfully',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                toast.success("status changed successfully")
                 refetch();
             }
         }).catch(error => console.log(error));

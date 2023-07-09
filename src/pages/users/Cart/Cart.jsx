@@ -79,6 +79,7 @@ const Cart = () => {
                             showConfirmButton: false,
                             timer: 1500
                         });
+                        refetch();
                         navigate('/order_reservation');
                     }
                 }).catch(error => console.log(error.message))

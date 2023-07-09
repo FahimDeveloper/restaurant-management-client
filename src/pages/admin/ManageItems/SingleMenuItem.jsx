@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SingleMenuItem = ({ item, index, handleDeleteMenuItem }) => {
     return (
-        <tr>
+        <tr className={`${item.available_item < 1 ? "bg-red-200" : ""}`}>
             <th>{index + 1}</th>
             <td>
                 <div className="avatar">

@@ -1,10 +1,18 @@
 import moment from "moment";
 import useReservationData from "../../../../../hooks/useReservationData";
+import Swal from "sweetalert2";
 
 
 const AllReservation = () => {
     const { reservationData } = useReservationData();
     const allReservaion = reservationData.filter(data => data.status === "accept");
+    const handleView = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Working Process',
+            text: 'Still we are working for this features',
+        })
+    }
     return (
         <div>
             <div className="overflow-x-auto">
@@ -32,7 +40,7 @@ const AllReservation = () => {
                                         <td>{moment(data.reservationDate).format("ddd, MMM Do YY, h:mm")}</td>
                                         <td>{data.guest}</td>
                                         <td className="space-x-3">
-                                            <button className="btn btn-sm btn-secondary">view</button>
+                                            <button onClick={handleView} className="btn btn-sm btn-secondary">view</button>
                                         </td>
                                     </tr>
                                 )

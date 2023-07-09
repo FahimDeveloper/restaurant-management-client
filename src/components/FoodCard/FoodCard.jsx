@@ -7,7 +7,7 @@ const FoodCard = (props) => {
             <div className="card-body">
                 <h2 className="card-title">{name}</h2>
                 <p className="text-lg">Price: ${price}</p>
-                <p>{recipe.slice(0, 15)}..</p>
+                <p className="text-base">{recipe.slice(0, 50)}..</p>
                 <p className="text-base">Quantity: {available_item}</p>
                 <p className="text-lg font-medium">{available_item > 0 ? "Available" : "Not Available"}</p>
                 <div className="card-actions justify-end">

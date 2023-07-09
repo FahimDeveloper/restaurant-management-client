@@ -11,7 +11,8 @@ const StaffManages = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user } = useAuth();
     const [searchText, setSearchText] = useState("");
-    const { data: allStaffsData = [] } = useQuery({
+    const [isSearchData, setIsSearchData] = useState(false);
+    const { data: allStaffsData = [], refetch: allStaff } = useQuery({
         queryKey: ["allStaffData"],
         queryFn: async () => {
             const data = await axiosSecure(`/allStaffCollection/${user?.email}`);
@@ -26,7 +27,14 @@ const StaffManages = () => {
             return data.data;
         }
     });
+    const handleSearchText = (text) => {
+        setSearchText(text);
+        if (text === "") {
+            setIsSearchData(false)
+        }
+    }
     const handleSearch = () => {
+        setIsSearchData(true);
         refetch();
     }
     const handleDeleteStaff = (id) => {
@@ -49,6 +57,7 @@ const StaffManages = () => {
                             showConfirmButton: false,
                             timer: 1500
                         });
+                        allStaff();
                         refetch();
                     }
                 })
@@ -62,7 +71,7 @@ const StaffManages = () => {
                 <div className="flex justify-between">
                     <div className="form-control">
                         <div className="input-group">
-                            <input onChange={(e) => setSearchText(e.target.value)} type="text" placeholder="Search by name or phone number" className="input input-bordered w-96" />
+                            <input onChange={(e) => handleSearchText(e.target.value)} type="text" placeholder="Search by name or phone number" className="input input-bordered w-96" />
                             <button onClick={handleSearch} className="btn btn-secondary btn-square">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                             </button>
@@ -86,7 +95,7 @@ const StaffManages = () => {
                         </thead>
                         <tbody className="text-center">
                             {
-                                (searchText === "" ? allStaffsData : staffsData).map((staff, index) => {
+                                (isSearchData ? staffsData : allStaffsData).map((staff, index) => {
                                     return (
                                         <tr key={staff._id}>
                                             <th>{index + 1}</th>

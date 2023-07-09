@@ -50,7 +50,7 @@ const RestaurantAnalytics = () => {
     const totalIncome = allIncome.reduce((sum, currentValue) => sum + currentValue, 0);
     return (
         <div className="py-16 space-y-10">
-            <SectionTitle subheading={"10:00am to 10:00pm"} heading={"Your restaurant anaylis dashboard"} />
+            <SectionTitle subheading={"10:00am to 10:00pm"} heading={"Your restaurant analysis dashboard"} />
             <div className="space-y-5">
                 <div className="stats shadow justify-center w-full">
                     <div className="stat">

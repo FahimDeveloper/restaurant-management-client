@@ -153,7 +153,7 @@ const OrderAndReservation = () => {
                                         tableReservedInfo.map(table => <ReservedInfo key={table._id} booking={table.booking_list} handleCancelBooking={handleCancelBooking} />)
                                     }
                                 </div>
-                                : <p className="flex items-center justify-center text-3xl font-semibold full-center">You haven't any reservation, Please reserve a table</p>
+                                : <p className="flex items-center justify-center text-3xl font-semibold full-center">You haven't any reservation, Please reserved a table</p>
                         }
                     </TabPanel>
                 </Tabs>

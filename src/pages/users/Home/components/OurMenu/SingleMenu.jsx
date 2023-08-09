@@ -7,7 +7,7 @@ const SingleMenu = ({ singleMenu }) => {
             <img style={{ borderRadius: '0 200px 200px 200px' }} src={image} className='w-24 h-24 object-cover' alt="menu item image" />
             <div>
                 <h3 className='uppercase'>{name} ------------</h3>
-                <p>{recipe}</p>
+                <p>{recipe.slice(0, 150)}...</p>
             </div>
             <p className='text-lg text-secondary'>${price}</p>
         </div>

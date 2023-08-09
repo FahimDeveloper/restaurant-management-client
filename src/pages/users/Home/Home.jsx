@@ -5,6 +5,7 @@ import FavouriteItems from "./components/FavouriteItems/FavouriteItems";
 import OrderOnline from "./components/OrderOnline/OrderOnline";
 import OurMenu from "./components/OurMenu/OurMenu";
 import Loading from "../../../components/Shared/Loading/Loading";
+import AboutUs from "./components/AboutUs/AboutUs";
 
 
 const Home = () => {
@@ -19,8 +20,9 @@ const Home = () => {
     }
     return (
         <div>
+            <BannerSection />
             <Container>
-                <BannerSection />
+                <AboutUs />
                 <OrderOnline />
                 <OurMenu />
                 <FavouriteItems />

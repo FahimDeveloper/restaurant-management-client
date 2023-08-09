@@ -54,6 +54,10 @@
     @apply bg-gray-200 text-gray-400 cursor-not-allowed border-2 border-gray-300
 }
 
+.aboutUsCheck {
+    @apply flex items-center gap-3 text-lg font-semibold italic
+}
+
 .full-center {
     height: calc(100vh - 500px);
 }

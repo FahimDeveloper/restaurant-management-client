@@ -9,23 +9,23 @@ import img6 from "../../../../../assets/home/06.png";
 
 const BannerSection = () => {
     return (
-        <Carousel>
-            <div>
+        <Carousel autoPlay={true} interval={2000} infiniteLoop={true} stopOnHover={false}>
+            <div className='w-full max-h-screen'>
                 <img src={img1} />
             </div>
-            <div>
+            <div className='w-full max-h-screen'>
                 <img src={img2} />
             </div>
-            <div>
+            <div className='w-full max-h-screen'>
                 <img src={img3} />
             </div>
-            <div>
+            <div className='w-full max-h-screen'>
                 <img src={img4} />
             </div>
-            <div>
+            <div className='w-full max-h-screen'>
                 <img src={img5} />
             </div>
-            <div>
+            <div className='w-full max-h-screen'>
                 <img src={img6} />
             </div>
         </Carousel>

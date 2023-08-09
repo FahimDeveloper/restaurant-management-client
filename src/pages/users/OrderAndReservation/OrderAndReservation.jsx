@@ -15,6 +15,7 @@ import Loading from "../../../components/Shared/Loading/Loading";
 
 const OrderAndReservation = () => {
     const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(0);
     const [viewloading, setViewLoading] = useState(true);
     const [viewDetails, setViewDetails] = useState([]);
     useEffect(() => {
@@ -109,7 +110,7 @@ const OrderAndReservation = () => {
                                         </thead>
                                         <tbody className="text-center">
                                             {
-                                                orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} handleViewOrder={handleViewOrder} />)
+                                                orderdInfo.map((order, index) => <OrderInfo key={order._id} order={order} index={index} handleCancelOrder={handleCancelOrder} handleViewOrder={handleViewOrder} setQuantity={setQuantity} />)
                                             }
                                         </tbody>
                                     </table>
@@ -130,7 +131,7 @@ const OrderAndReservation = () => {
                                                                             <div className="card-body w-1/2">
                                                                                 <h2 className="card-title">{item.name}</h2>
                                                                                 <p className="text-lg">Category {item.category}</p>
-                                                                                <p className="text-lg">quantity : 1</p>
+                                                                                <p className="text-lg">quantity : {quantity}</p>
                                                                             </div>
                                                                         </div>
                                                                     )

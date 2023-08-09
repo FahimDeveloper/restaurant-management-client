@@ -8,17 +8,28 @@ import CartITem from "./CartITem";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../../../components/Shared/Loading/Loading";
-import { toast } from "react-hot-toast";
 
 
 const Cart = () => {
     const [loading, setLoading] = useState(true);
-    const [count, setCount] = useState(true);
     const [totalPrice, setTotalPrice] = useState(0);
     const { user } = useAuth();
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
-    const { cartData, refetch } = useCartData();
+    const { isLoading, cartData, refetch } = useCartData();
+    useEffect(() => {
+        if (!isLoading) {
+            setLoading(false)
+        }
+    }, [isLoading]);
+    useEffect(() => {
+        const allitems = []
+        const cartItem = [...cartData]
+        cartItem.map(item => allitems.push(item.price));
+        const totalPrice = allitems.reduce((pre, current) => pre + current, 0);
+        setTotalPrice(totalPrice)
+    }, [cartData]);
+    const updatedCartItem = [];
     const handleRemoveCart = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -45,20 +56,9 @@ const Cart = () => {
             }
         })
     }
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 500)
-    }, []);
-    useEffect(() => {
-        const allCartItemPrices = []
-        cartData.map(item => allCartItemPrices.push(item.price * item.quantity));
-        const calculatePrice = allCartItemPrices.reduce((sum, currentValue) => sum + currentValue, 0)
-        setTotalPrice(calculatePrice);
-    }, [cartData, count]);
     const handlePlaceOrder = () => {
         setLoading(true)
-        const menuIdCollection = cartData.map(item => ({ itemId: item.menuItemId, quantity: item.quantity }));
+        const menuIdCollection = updatedCartItem.map(item => ({ itemId: item.menuItemId, quantity: item.quantity }));
         const orderData = {
             userName: user?.displayName,
             userEmail: user?.email,
@@ -86,31 +86,7 @@ const Cart = () => {
             }
         }).catch(error => console.log(error.message))
     }
-    const handleQuantityPlus = (id, quantity) => {
-        axiosSecure.put(`/quantityPlus/${user?.email}/${id}`, { quantity }).then(res => {
-            if (res.data.modifiedCount) {
-                refetch();
-                toast.success('Item quantity increase')
-                setCount(!count)
-            } else if (res.data.max) {
-                toast.error('Quantity maximum 5')
-            } else {
-                toast.error(res.data.finish)
-            }
-        }).catch(error => console.log(error.message))
-    }
-    const handleQuantityMinus = (id, quantity) => {
-        axiosSecure.put(`/quantityMinus/${user?.email}/${id}`, { quantity }).then(res => {
-            if (res.data.modifiedCount) {
-                toast.success('Item quantity decrease')
-                setCount(!count)
-                refetch();
-            } else {
-                toast.error('Quantity minimum 1 need')
-            }
-        }).catch(error => console.log(error.message))
-    }
-    if (loading) {
+    if (loading || isLoading) {
         return <Loading />
     }
     return (
@@ -128,7 +104,15 @@ const Cart = () => {
                                 <button onClick={handlePlaceOrder} className="btn btn-secondary px-10 rounded-full">Placed Order</button>
                             </div>
                             <div className="grid grid-cols-3 gap-5">
-                                {cartData.map(item => <CartITem key={item._id} item={item} handleRemoveCart={handleRemoveCart} handleQuantityPlus={handleQuantityPlus} handleQuantityMinus={handleQuantityMinus} />)}
+                                {cartData.map(item =>
+                                    <CartITem key={item._id}
+                                        item={item}
+                                        handleRemoveCart={handleRemoveCart}
+                                        totalPrice={totalPrice}
+                                        setTotalPrice={setTotalPrice}
+                                        updatedCartItem={updatedCartItem}
+                                    />
+                                )}
                             </div>
                         </div> :
                         <div className="flex justify-center items-center full-center">

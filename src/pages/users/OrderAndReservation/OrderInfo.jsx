@@ -1,6 +1,7 @@
 
 
 const OrderInfo = ({ order, index, handleCancelOrder, handleViewOrder }) => {
+    console.log(order)
     return (
         <tr className="w-full">
             <th>{index + 1}</th>

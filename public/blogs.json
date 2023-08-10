@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Delicious Pasta Delights",
+        "text": "Indulge in a variety of mouthwatering pasta dishes, from classic spaghetti bolognese to creamy fettuccine alfredo. Our skilled chefs use the finest ingredients to create these delectable pasta masterpieces.",
+        "image": "https://i.ibb.co/k9zyZ7T/featured.jpg"
+    },
+    {
+        "title": "Savoring Sushi Sensations",
+        "text": "Experience the art of sushi-making with our fresh and flavorful sushi platters. From delicate sashimi to creative rolls, our sushi chefs craft each piece with precision and expertise.",
+        "image": "https://i.ibb.co/584kc0t/menu-Slide1.jpg"
+    },
+    {
+        "title": "Burger Bliss",
+        "text": "Sink your teeth into our juicy, handcrafted burgers made from premium beef and served on freshly baked buns. Customize your burger with a variety of toppings and condiments for a taste sensation like no other.",
+        "image": "https://i.ibb.co/C2xdfXT/menu-Slide3.jpg"
+    },
+    {
+        "title": "Hearty Breakfast Classics",
+        "text": "Start your day right with our hearty breakfast options. From fluffy pancakes and crispy bacon to farm-fresh omelets, we offer a wide range of breakfast delights to satisfy your morning cravings.",
+        "image": "https://i.ibb.co/x7LX2yh/menu-Slide4.jpg"
+    }
+]

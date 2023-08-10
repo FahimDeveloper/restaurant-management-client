@@ -6,16 +6,19 @@ import OrderOnline from "./components/OrderOnline/OrderOnline";
 import OurMenu from "./components/OurMenu/OurMenu";
 import Loading from "../../../components/Shared/Loading/Loading";
 import AboutUs from "./components/AboutUs/AboutUs";
+import BlogSlide from "./components/BlogSlide/BlogSlide";
+import useBlogData from "../../../hooks/useBlogData";
 
 
 const Home = () => {
+    const { blogData, isLoading } = useBlogData();
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
         }, 500)
-    }, [])
-    if (loading) {
+    }, []);
+    if (loading, isLoading) {
         return <Loading />
     }
     return (
@@ -27,6 +30,7 @@ const Home = () => {
                 <OurMenu />
                 <FavouriteItems />
             </Container>
+            <BlogSlide blogData={blogData} />
         </div>
     );
 };

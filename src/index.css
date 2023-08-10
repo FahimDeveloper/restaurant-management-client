@@ -18,6 +18,14 @@
     @apply bg-secondary text-white
 }
 
+.button-blog {
+    @apply btn bg-transparent border-0 border-b-2 border-white text-white px-10
+}
+
+.button-blog:hover {
+    @apply bg-white text-black
+}
+
 .button-cart {
     @apply btn bg-gray-100 px-10 border-0 border-b-2 border-secondary text-secondary
 }
